@@ -24,7 +24,7 @@ import java.io.IOException;
 public class AlertService extends Service {
 
     private static final int NOTIFICATION_ID = 1;
-    private static final String CHANNEL_ID = "AlertChannel4";
+    private static final String CHANNEL_ID = "AlertChannel6";
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
 
@@ -79,7 +79,7 @@ public class AlertService extends Service {
                 .setContentTitle("Alerta!")
                 .setContentText("Toque para interagir")
                 .setAutoCancel(false)
-                .setContentIntent(pendingIntent)
+//                .setContentIntent(pendingIntent)
                 .setSmallIcon(R.drawable.escudo_ka)
 //               .setContent(notificationLayout)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

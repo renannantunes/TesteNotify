@@ -21,6 +21,7 @@ public class AlertActivity extends Activity {
                 // Por exemplo, parar o serviço e fechar a atividade
                 stopAlertService();
                 finish();
+                goToMain();
             }
         });
     }
@@ -28,6 +29,11 @@ public class AlertActivity extends Activity {
     private void stopAlertService() {
         Intent serviceIntent = new Intent(this, AlertService.class);
         stopService(serviceIntent);
+    }
+
+    private void goToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }
 
