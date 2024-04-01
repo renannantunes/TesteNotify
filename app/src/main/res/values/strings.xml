@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">TesteNotify</string>
+    <string name="MainActivity">MainActivity</string>
+</resources>
