@@ -1,5 +1,7 @@
 package com.example.testenotify;
 
+import static android.content.Intent.getIntent;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -24,9 +26,23 @@ import java.io.IOException;
 public class AlertService extends Service {
 
     private static final int NOTIFICATION_ID = 1;
-    private static final String CHANNEL_ID = "AlertChannel6";
+    private static final String CHANNEL_ID = "AlertChannel8";
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
+
+    public static final String ACTION_STOP_ALERT = "com.example.testenotify.ACTION_STOP_ALERT";
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null) {
+            String action = intent.getAction();
+            if (ACTION_STOP_ALERT.equals(action)) {
+                // Ação a ser executada quando quiser parar o alerta
+                stopSelf(); // Para o serviço
+            }
+        }
+        return START_STICKY;
+    }
 
     @Override
     public void onCreate() {
@@ -63,8 +79,10 @@ public class AlertService extends Service {
         }
     }
 
+
+
     private Notification buildNotification() {
-        Intent notificationIntent = new Intent(this, AlertActivity.class);
+        Intent notificationIntent = new Intent(this, IncomingCallActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 this,
                 0,
@@ -74,6 +92,25 @@ public class AlertService extends Service {
 
 //        RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.activity_alert);
 //        notificationLayout.setOnClickPendingIntent(R.id.liberar_button, pendingIntent);
+
+        // Intent para a ação de atender
+        Intent answerIntent = new Intent(this, MainActivity.class);
+        answerIntent.setAction("ACTION_ANSWER_CALL"); // Adiciona uma ação personalizada
+        PendingIntent answerPendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                answerIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        // Intent para a ação de recusar
+        Intent rejectIntent = new Intent(this, RejectReceiver.class);
+        PendingIntent rejectPendingIntent = PendingIntent.getBroadcast(
+                this,
+                0,
+                rejectIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Alerta!")
@@ -85,7 +122,11 @@ public class AlertService extends Service {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_CALL)
                 .setFullScreenIntent(pendingIntent, true)
-                .setSound(null);
+                .setSound(null)
+                // Adiciona ação de atender
+                .addAction(R.drawable.ic_launcher_foreground, "Atender", answerPendingIntent)
+                // Adiciona ação de recusar
+                .addAction(R.drawable.ic_launcher_foreground, "Recusar", rejectPendingIntent);
 
 
         return builder.build();

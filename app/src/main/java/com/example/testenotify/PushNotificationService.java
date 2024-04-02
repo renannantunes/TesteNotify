@@ -76,7 +76,7 @@ public class PushNotificationService extends FirebaseMessagingService {
         final Intent startAppIntent = new Intent();
         Context ctx = getApplicationContext();
         String mPackage = ctx.getPackageName();
-        String mClass = ctx.getResources().getString(R.string.MainActivity);
+        String mClass = "IncomingCallActivity";
 
         startAppIntent.setComponent(new ComponentName(mPackage,mClass));
         Class<?> activityClass;
@@ -183,7 +183,7 @@ public class PushNotificationService extends FirebaseMessagingService {
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext() , channelID)
-                .setSmallIcon(R.drawable. ic_launcher_foreground )
+                .setSmallIcon(R.drawable.escudo_ka )
                 .setContentTitle( title )
                 .setContentText( body )
                 .setAutoCancel(true)

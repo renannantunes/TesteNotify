@@ -44,7 +44,14 @@
             </intent-filter>
         </service>
         <service android:name=".AlertService" android:foregroundServiceType="dataSync"/>
-        <activity android:name=".AlertActivity" />
+        <activity android:name=".AlertActivity"  />
+        <activity android:name=".IncomingCallActivity" android:showOnLockScreen="true"
+            android:showWhenLocked="true"
+            android:showForAllUsers="true"
+            android:turnScreenOn="true" />
+
+        <receiver android:name=".AnswerReceiver" />
+        <receiver android:name=".RejectReceiver" />
 
     </application>
 
